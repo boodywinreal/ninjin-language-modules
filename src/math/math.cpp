@@ -1,0 +1,28 @@
+#include "carrot_module.h"
+#include "cmath"
+
+struct MathSineFn : NinCallable {
+    int arity() override { return 1; }
+    std::string name() override { return "sin"; }
+    Value call(std::vector<Value> args) override {
+        if (!std::holds_alternative<double>(args[0]))
+            throw std::runtime_error("");
+        return sin(std::get<double>(args[0]));
+    }
+};
+
+struct MathCosineFn : NinCallable {
+    int arity() override { return 1; }
+    std::string name() override { return "cos"; }
+    Value call(std::vector<Value> args) override {
+        if (!std::holds_alternative<double>(args[0]))
+            throw std::runtime_error("");
+        return cos(std::get<double>(args[0]));
+    }
+};
+
+
+extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
+    (*out)["sin"] = std::make_shared<MathSineFn>();
+    (*out)["cos"] = std::make_shared<MathCosineFn>();
+}
