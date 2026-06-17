@@ -1,2 +1,2 @@
 # Ninjin Language Modules
-Custom FFI modules and C/C++ binds for the [Carrot/Ninjin Language](https://github.com/NekoMimiOfficial/Carrot) project by [NekoMimi](https://github.com/NekoMimiOfficial).
+The Ninjin Language Modules (NLM) is a set of custom FFI modules and C/C++ binds for the [Carrot/Ninjin Language](https://github.com/NekoMimiOfficial/Carrot) project by [NekoMimi](https://github.com/NekoMimiOfficial), making the language more functional while making it faster by using C/C++ backends for it
