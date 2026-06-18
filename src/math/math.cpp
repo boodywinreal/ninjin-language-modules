@@ -1,6 +1,6 @@
 #define _USE_MATH_DEFINES // Windows-specific cmath flag
 #include "carrot_module.h"
-#include "cmath"
+#include <cmath>
 
 #define SINGLE_ARG_CHECK(args, name) \
     if (!std::holds_alternative<double>(args[0])) \
