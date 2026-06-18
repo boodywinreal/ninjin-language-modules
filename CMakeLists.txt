@@ -13,7 +13,7 @@ set(NIN_DESTINATION "$ENV{HOME}/.config/lib/carrot/CAPI")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # Math
-add_library(nin-math SHARED src/math/math.cpp)
+add_library(nin-math SHARED src/math/main.cpp)
 
 target_include_directories(nin-math PUBLIC head)
 target_link_libraries(nin-math PRIVATE
