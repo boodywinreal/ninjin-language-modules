@@ -118,3 +118,6 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["tau"] = MathTauValue;
     (*out)["2pi"] = MathTauValue;
 }
+
+#undef SINGLE_ARG_CHECK
+#undef TRIBLE_ARG_CHECK
