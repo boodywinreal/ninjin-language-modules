@@ -103,9 +103,6 @@ struct MathLerpNoClampFn : NinCallable {
     }
 };
 
-const Value MathPiValue = M_PI;
-const Value MathTauValue = M_PI_2;
-
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
     (*out)["cos"] = std::make_shared<MathCosineFn>();
@@ -114,9 +111,9 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["lerp"] = std::make_shared<MathLerpFn>();
     (*out)["lerpNoClamp"] = std::make_shared<MathLerpNoClampFn>();
-    (*out)["pi"] = MathPiValue;
-    (*out)["tau"] = MathTauValue;
-    (*out)["2pi"] = MathTauValue;
+    (*out)["pi"] = M_PI;
+    (*out)["tau"] = M_PI_2;
+    (*out)["2pi"] = M_PI_2;
 }
 
 #undef SINGLE_ARG_CHECK
