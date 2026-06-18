@@ -22,15 +22,6 @@ target_link_libraries(nin-math PRIVATE
   "-static-libstdc++"
 )
 
-# IO
-add_library(nin-io SHARED src/io/main.cpp)
-
-target_include_directories(nin-io PUBLIC head)
-target_link_libraries(nin-io PRIVATE
-  "-static-libgcc"
-  "-static-libstdc++"
-)
-
 # -Installation-
 # Math
 add_custom_command(
@@ -38,12 +29,4 @@ add_custom_command(
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E make_directory "${NIN_DESTINATION}"
   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:nin-math> "${NIN_DESTINATION}"
-)
-
-# IO
-add_custom_command(
-  TARGET nin-io
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E make_directory "${NIN_DESTINATION}"
-  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:nin-io> "${NIN_DESTINATION}"
 )
