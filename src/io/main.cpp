@@ -12,6 +12,17 @@ struct IOWriteFn : NinCallable {
     }
 };
 
+struct IOReadFn : NinCallable {
+    int arity() override { return 0; }
+    std::string name() override { return "write"; }
+    Value call(std::vector<Value> args) override {
+        std::string input;
+        std::cin >> input;
+        return input;
+    }
+};
+
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out) {
     (*out)["write"] = std::make_shared<IOWriteFn>();
+    (*out)["read"]  = std::make_shared<IOReadFn>();
 }
