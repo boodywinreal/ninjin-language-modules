@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES // Windows-specific cmath flag
 #include "carrot_module.h"
 #include "cmath"
 
@@ -45,6 +46,25 @@ struct MathAbsFn : NinCallable {
     }
 };
 
+struct MathClampFn : NinCallable {
+    int arity() override { return 3; }
+    std::string name() override { return "clamp"; }
+    Value call(std::vector<Value> args) override {
+        if (
+            !std::holds_alternative<double>(args[0])
+            || !std::holds_alternative<double>(args[1])
+            || !std::holds_alternative<double>(args[2])
+        ) throw std::runtime_error("clamp: Invalid input value");
+
+        double x = std::get<double>(args[0]);
+        double min = std::get<double>(args[1]);
+        double max = std::get<double>(args[2]);
+        if (x < min) x = min;
+        if (x > max) x = max;
+        return x;
+    }
+};
+
 const Value MathPiValue = M_PI;
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
@@ -52,5 +72,6 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["cos"] = std::make_shared<MathCosineFn>();
     (*out)["tan"] = std::make_shared<MathTanFn>();
     (*out)["abs"] = std::make_shared<MathAbsFn>();
+    (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["pi"] = MathPiValue;
 }
