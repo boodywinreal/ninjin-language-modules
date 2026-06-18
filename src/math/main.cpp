@@ -80,7 +80,25 @@ struct MathLerpFn : NinCallable {
 
         double start = std::get<double>(args[0]);
         double end = std::get<double>(args[1]);
+
         double alpha = std::get<double>(args[2]);
+        if (alpha < 0) alpha = 0;
+        if (alpha < 1) alpha = 1;
+
+        return alpha * (end - start) + start;
+    }
+};
+
+struct MathLerpNoClampFn : NinCallable {
+    int arity() override { return 3; }
+    std::string name() override { return "lerp"; }
+    Value call(std::vector<Value> args) override {
+        TRIBLE_ARG_CHECK(args, "lerp");
+
+        double start = std::get<double>(args[0]);
+        double end = std::get<double>(args[1]);
+        double alpha = std::get<double>(args[2]);
+
         return alpha * (end - start) + start;
     }
 };
@@ -95,6 +113,7 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["abs"] = std::make_shared<MathAbsFn>();
     (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["lerp"] = std::make_shared<MathLerpFn>();
+    (*out)["lerpNoClamp"] = std::make_shared<MathLerpNoClampFn>();
     (*out)["pi"] = MathPiValue;
     (*out)["tau"] = MathTauValue;
     (*out)["2pi"] = MathTauValue;
