@@ -82,6 +82,7 @@ struct MathLerpFn : NinCallable {
 };
 
 const Value MathPiValue = M_PI;
+const Value MathTauValue = M_PI_2;
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
@@ -91,4 +92,6 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["lerp"] = std::make_shared<MathLerpFn>();
     (*out)["pi"] = MathPiValue;
+    (*out)["tau"] = MathTauValue;
+    (*out)["2pi"] = MathTauValue;
 }
