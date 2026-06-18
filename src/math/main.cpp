@@ -62,6 +62,10 @@ struct MathClampFn : NinCallable {
         double x = std::get<double>(args[0]);
         double min = std::get<double>(args[1]);
         double max = std::get<double>(args[2]);
+        if (max < min)
+            throw std::runtime_error("clamp: Bad input, \
+the MAX value should not be less than the MIN value");
+
         if (x < min) x = min;
         if (x > max) x = max;
         return x;
