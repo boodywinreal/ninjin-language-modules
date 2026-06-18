@@ -1,0 +1,8 @@
+#define LOWER "abcdefghijklmnopqrstuvwxyz"
+#define UPPER "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#define DIGTS "0123456789"
+#define HEX_L "abcdef"
+#define HEX_U "ABCDEF"
+#define OCTAL "01234567"
+#define SYMBL "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+#define SPACE " \t\n\r\v\f"
