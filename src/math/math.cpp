@@ -2,12 +2,22 @@
 #include "carrot_module.h"
 #include "cmath"
 
+#define SINGLE_ARG_CHECK(args, name) \
+    if (!std::holds_alternative<double>(args[0])) \
+    throw std::runtime_error(#name ": Invalid input value")
+
+#define TRIBLE_ARG_CHECK(args, name) \
+    if (!std::holds_alternative<double>(args[0]) \
+    || !std::holds_alternative<double>(args[1])\
+    || !std::holds_alternative<double>(args[2])\
+    ) throw std::runtime_error(#name ": Invalid input value")
+
 struct MathSineFn : NinCallable {
     int arity() override { return 1; }
     std::string name() override { return "sin"; }
     Value call(std::vector<Value> args) override {
-        if (!std::holds_alternative<double>(args[0]))
-            throw std::runtime_error("sin: Invalid input value");
+        SINGLE_ARG_CHECK(args, "sin");
+
         return sin(std::get<double>(args[0]));
     }
 };
@@ -16,8 +26,7 @@ struct MathCosineFn : NinCallable {
     int arity() override { return 1; }
     std::string name() override { return "cos"; }
     Value call(std::vector<Value> args) override {
-        if (!std::holds_alternative<double>(args[0]))
-            throw std::runtime_error("cos: Invalid input value");
+        SINGLE_ARG_CHECK(args, "cos");
 
         return cos(std::get<double>(args[0]));
     }
@@ -27,8 +36,7 @@ struct MathTanFn : NinCallable {
     int arity() override { return 1; }
     std::string name() override { return "tan"; }
     Value call(std::vector<Value> args) override {
-        if (!std::holds_alternative<double>(args[0]))
-            throw std::runtime_error("tan: Invalid input value");
+        SINGLE_ARG_CHECK(args, "tan");
 
         return tan(std::get<double>(args[0]));
     }
@@ -38,8 +46,7 @@ struct MathAbsFn : NinCallable {
     int arity() override { return 1; }
     std::string name() override { return "abs"; }
     Value call(std::vector<Value> args) override {
-        if (!std::holds_alternative<double>(args[0]))
-            throw std::runtime_error("abs: Invalid input value");
+        SINGLE_ARG_CHECK(args, "abs");
 
         double x = std::get<double>(args[0]);
         return x < 0 ? -x : x;
@@ -50,11 +57,7 @@ struct MathClampFn : NinCallable {
     int arity() override { return 3; }
     std::string name() override { return "clamp"; }
     Value call(std::vector<Value> args) override {
-        if (
-            !std::holds_alternative<double>(args[0])
-            || !std::holds_alternative<double>(args[1])
-            || !std::holds_alternative<double>(args[2])
-        ) throw std::runtime_error("clamp: Invalid input value");
+        TRIBLE_ARG_CHECK(args, "clamp");
 
         double x = std::get<double>(args[0]);
         double min = std::get<double>(args[1]);
@@ -69,11 +72,7 @@ struct MathLerpFn : NinCallable {
     int arity() override { return 3; }
     std::string name() override { return "lerp"; }
     Value call(std::vector<Value> args) override {
-        if (
-            !std::holds_alternative<double>(args[0])
-            || !std::holds_alternative<double>(args[1])
-            || !std::holds_alternative<double>(args[2])
-        ) throw std::runtime_error("lerp: Invalid input value");
+        TRIBLE_ARG_CHECK(args, "lerp");
 
         double start = std::get<double>(args[0]);
         double end = std::get<double>(args[1]);
