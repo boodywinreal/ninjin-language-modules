@@ -65,6 +65,23 @@ struct MathClampFn : NinCallable {
     }
 };
 
+struct MathLerpFn : NinCallable {
+    int arity() override { return 3; }
+    std::string name() override { return "lerp"; }
+    Value call(std::vector<Value> args) override {
+        if (
+            !std::holds_alternative<double>(args[0])
+            || !std::holds_alternative<double>(args[1])
+            || !std::holds_alternative<double>(args[2])
+        ) throw std::runtime_error("lerp: Invalid input value");
+
+        double start = std::get<double>(args[0]);
+        double end = std::get<double>(args[1]);
+        double alpha = std::get<double>(args[2]);
+        return alpha * (end - start) + start;
+    }
+};
+
 const Value MathPiValue = M_PI;
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
@@ -73,5 +90,6 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["tan"] = std::make_shared<MathTanFn>();
     (*out)["abs"] = std::make_shared<MathAbsFn>();
     (*out)["clamp"] = std::make_shared<MathClampFn>();
+    (*out)["lerp"] = std::make_shared<MathLerpFn>();
     (*out)["pi"] = MathPiValue;
 }
