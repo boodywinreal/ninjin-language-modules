@@ -36,6 +36,29 @@ struct StrReplaceNFn : NinCallable {
     }
 };
 
+struct StrReplaceAllFn : NinCallable {
+    int arity() override { return 3; }
+    std::string name() override { return "replaceN"; }
+    Value call(std::vector<Value> args) override {
+        TRIBLE_ARG_CHECK(args, "replace");
+
+        std::string string = std::get<std::string>(args[0]);
+        std::string target = std::get<std::string>(args[1]);
+        std::string replace = std::get<std::string>(args[2]);
+
+        if (target.empty()) return string;
+
+        size_t i = 0;
+        while (i < string.length()) {
+            if (string.substr(i, target.length()) == target) {
+                string.replace(i, target.length(), replace);
+                i += replace.length();
+            } else i++;
+        }
+        return string;
+    }
+};
+
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out) {
     (*out)["octal"] = OCTAL;
     (*out)["digits"] = DIGTS;
@@ -51,4 +74,5 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out) 
     (*out)["printable"] = DIGTS LOWER UPPER SYMBL " ";
 
     (*out)["replaceN"] = std::make_shared<StrReplaceNFn>();
+    (*out)["replaceAll"] = std::make_shared<StrReplaceAllFn>();
 }
