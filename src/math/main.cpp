@@ -3,8 +3,9 @@
 
 constexpr double tanEpsilon = 6.12323e-17;
 Value safeTan(double x) {
-    if (cos(x) <= tanEpsilon || -cos(x) <= tanEpsilon) return std::monostate{};
-    return tan(x);
+    double value = std::cos(x);
+    if (value <= tanEpsilon || -value <= tanEpsilon) return std::monostate{};
+    return std::tan(x);
 }
 
 struct MathAbsFn : NinCallable {
@@ -68,14 +69,14 @@ struct MathLerpNoClampFn : NinCallable {
     }
 };
 
-MAKE_CALLABLE("sin", sin, MathSineFn);
-MAKE_CALLABLE("cos", cos, MathCosineFn);
+MAKE_CALLABLE("sin", std::sin, MathSineFn);
+MAKE_CALLABLE("cos", std::cos, MathCosineFn);
 MAKE_CALLABLE("tan", safeTan, MathTangentFn);
-MAKE_CALLABLE("sqrt", sqrt, MathSquareRootFn);
-MAKE_CALLABLE("cbrt", cbrt, MathCubeRootFn);
-MAKE_CALLABLE("asin", asin, MathArcSineFn);
-MAKE_CALLABLE("acos", acos, MathArcCosineFn);
-MAKE_CALLABLE("atan", atan, MathArcTangentFn);
+MAKE_CALLABLE("sqrt", std::sqrt, MathSquareRootFn);
+MAKE_CALLABLE("cbrt", std::cbrt, MathCubeRootFn);
+MAKE_CALLABLE("asin", std::asin, MathArcSineFn);
+MAKE_CALLABLE("acos", std::acos, MathArcCosineFn);
+MAKE_CALLABLE("atan", std::atan, MathArcTangentFn);
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
