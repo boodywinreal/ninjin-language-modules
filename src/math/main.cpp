@@ -81,6 +81,7 @@ MAKE_CALLABLE("atan", std::atan, MathArcTangentFn);
 MAKE_CALLABLE("sinh", std::sinh, MathHyperSineFn);
 MAKE_CALLABLE("cosh", std::cosh, MathHyperCosineFn);
 MAKE_CALLABLE("tanh", std::tanh, MathHyperTangentFn);
+MAKE_CALLABLE("exp", std::exp, MathExponentialFn);
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
@@ -92,6 +93,7 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sinh"] = std::make_shared<MathHyperSineFn>();
     (*out)["cosh"] = std::make_shared<MathHyperCosineFn>();
     (*out)["tanh"] = std::make_shared<MathHyperTangentFn>();
+    (*out)["exp"] = std::make_shared<MathExponentialFn>();
     (*out)["abs"] = std::make_shared<MathAbsFn>();
     (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["cbrt"] = std::make_shared<MathCubeRootFn>();
