@@ -31,6 +31,7 @@ struct StrReplaceNFn : NinCallable {
         size_t i = 0;
         while (i < string.length()) {
             if (replacements == n) break; 
+
             if (string.substr(i, target.length()) == target) {
                 string.replace(i, target.length(), replace);
                 i += replace.length();
@@ -73,10 +74,36 @@ struct StrFindFirstFn : NinCallable {
         std::string string = std::get<std::string>(args[0]);
         std::string target = std::get<std::string>(args[1]);
 
-        double i = 0;
+        size_t length = target.length();
+        if (length > string.length()) return std::monostate{};
+
+        size_t i = 0;
         while (i < string.length()) {
-            if (string.substr(i, target.length()) == target) return i;
+            if (string.substr(i, length) == target) return static_cast<double>(i);
             i++;
+        }
+        return std::monostate{};
+    }
+};
+
+struct StrFindLastFn : NinCallable {
+    int arity() override { return 2; }
+    std::string name() override { return "findFirst"; }
+    Value call(std::vector<Value> args) override {
+        DOUBLE_ARG_CHECK(args, "findFirst");
+
+        std::string string = std::get<std::string>(args[0]);
+        std::string target = std::get<std::string>(args[1]);
+
+        size_t length = target.length();
+        if (length > string.length()) return std::monostate{};
+
+        size_t i = string.length() - length;
+        while (true) {
+            if (string.substr(i, length) == target) return static_cast<double>(i);
+
+            if (i == 0) break;
+            i--;
         }
         return std::monostate{};
     }
@@ -98,6 +125,7 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out) 
 
     (*out)["replaceN"] = std::make_shared<StrReplaceNFn>();
     (*out)["replaceAll"] = std::make_shared<StrReplaceAllFn>();
-    
+
     (*out)["findFirst"] = std::make_shared<StrFindFirstFn>();
+    (*out)["findLast"] = std::make_shared<StrFindLastFn>();
 }
