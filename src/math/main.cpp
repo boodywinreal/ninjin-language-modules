@@ -2,10 +2,11 @@
 #include "math_header.h"
 
 constexpr double tanEpsilon = 6.12323e-17;
-Value safeTan(double x) {
-    double value = std::cos(x);
-    if (value <= tanEpsilon || -value <= tanEpsilon) return std::monostate{};
-    return std::tan(x);
+double safeTan(double x) {
+    double cosResult = std::cos(x);
+    if (std::abs(cosResult) <= tanEpsilon) cosResult = 0.0;
+
+    return std::sin(x) / cosResult; // This is handled automatically by C++
 }
 
 struct MathAbsFn : NinCallable {
