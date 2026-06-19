@@ -73,11 +73,17 @@ MAKE_CALLABLE("cos", cos, MathCosineFn);
 MAKE_CALLABLE("tan", safeTan, MathTangentFn);
 MAKE_CALLABLE("sqrt", sqrt, MathSquareRootFn);
 MAKE_CALLABLE("cbrt", cbrt, MathCubeRootFn);
+MAKE_CALLABLE("asin", asin, MathArcSineFn);
+MAKE_CALLABLE("acos", acos, MathArcCosineFn);
+MAKE_CALLABLE("atan", atan, MathArcTangentFn);
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
     (*out)["cos"] = std::make_shared<MathCosineFn>();
     (*out)["tan"] = std::make_shared<MathTangentFn>();
+    (*out)["asin"] = std::make_shared<MathArcSineFn>();
+    (*out)["acos"] = std::make_shared<MathArcCosineFn>();
+    (*out)["atan"] = std::make_shared<MathArcTangentFn>();
     (*out)["abs"] = std::make_shared<MathAbsFn>();
     (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["cbrt"] = std::make_shared<MathCubeRootFn>();
