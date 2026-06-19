@@ -11,7 +11,7 @@ struct StrReplaceNFn : NinCallable {
     int arity() override { return 4; }
     std::string name() override { return "replaceN"; }
     Value call(std::vector<Value> args) override {
-        TRIBLE_ARG_CHECK(args, "replace");
+        TRIBLE_ARG_CHECK(args, "replaceN");
         if (!std::holds_alternative<double>(args[3]))
             throw std::runtime_error("replaceN: Invalid input value");
 
@@ -38,9 +38,9 @@ struct StrReplaceNFn : NinCallable {
 
 struct StrReplaceAllFn : NinCallable {
     int arity() override { return 3; }
-    std::string name() override { return "replaceN"; }
+    std::string name() override { return "replaceAll"; }
     Value call(std::vector<Value> args) override {
-        TRIBLE_ARG_CHECK(args, "replace");
+        TRIBLE_ARG_CHECK(args, "replaceAll");
 
         std::string string = std::get<std::string>(args[0]);
         std::string target = std::get<std::string>(args[1]);
