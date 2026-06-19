@@ -71,6 +71,8 @@ struct MathLerpNoClampFn : NinCallable {
 MAKE_CALLABLE("sin", sin, MathSineFn);
 MAKE_CALLABLE("cos", cos, MathCosineFn);
 MAKE_CALLABLE("tan", safeTan, MathTangentFn);
+MAKE_CALLABLE("sqrt", sqrt, MathSquareRootFn);
+MAKE_CALLABLE("cbrt", cbrt, MathCubeRootFn);
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
@@ -78,6 +80,8 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["tan"] = std::make_shared<MathTangentFn>();
     (*out)["abs"] = std::make_shared<MathAbsFn>();
     (*out)["clamp"] = std::make_shared<MathClampFn>();
+    (*out)["cbrt"] = std::make_shared<MathCubeRootFn>();
+    (*out)["sqrt"] = std::make_shared<MathSquareRootFn>();
     (*out)["lerp"] = std::make_shared<MathLerpFn>();
     (*out)["lerpNoClamp"] = std::make_shared<MathLerpNoClampFn>();
     (*out)["pi"] = M_PI;
