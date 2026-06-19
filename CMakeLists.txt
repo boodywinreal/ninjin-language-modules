@@ -1,7 +1,7 @@
 # -Main project-
 cmake_minimum_required(VERSION 3.20)
 
-project(carrot-ninjin-modules VERSION 1.5 LANGUAGES CXX)
+project(carrot-ninjin-modules VERSION 2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
