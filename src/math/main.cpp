@@ -1,46 +1,11 @@
-#define _USE_MATH_DEFINES // Windows-specific cmath flag
 #include "carrot_module.h"
-#include <cmath>
+#include "math_header.h"
 
-#define SINGLE_ARG_CHECK(args, name) \
-    if (!std::holds_alternative<double>(args[0])) \
-    throw std::runtime_error(#name ": Invalid input value")
-
-#define TRIBLE_ARG_CHECK(args, name) \
-    if (!std::holds_alternative<double>(args[0]) \
-    || !std::holds_alternative<double>(args[1])\
-    || !std::holds_alternative<double>(args[2])\
-    ) throw std::runtime_error(#name ": Invalid input value")
-
-struct MathSineFn : NinCallable {
-    int arity() override { return 1; }
-    std::string name() override { return "sin"; }
-    Value call(std::vector<Value> args) override {
-        SINGLE_ARG_CHECK(args, "sin");
-
-        return sin(std::get<double>(args[0]));
-    }
-};
-
-struct MathCosineFn : NinCallable {
-    int arity() override { return 1; }
-    std::string name() override { return "cos"; }
-    Value call(std::vector<Value> args) override {
-        SINGLE_ARG_CHECK(args, "cos");
-
-        return cos(std::get<double>(args[0]));
-    }
-};
-
-struct MathTanFn : NinCallable {
-    int arity() override { return 1; }
-    std::string name() override { return "tan"; }
-    Value call(std::vector<Value> args) override {
-        SINGLE_ARG_CHECK(args, "tan");
-
-        return tan(std::get<double>(args[0]));
-    }
-};
+constexpr double tanEpsilon = 6.12323e-17;
+Value safeTan(double x) {
+    if (cos(x) <= tanEpsilon || -cos(x) <= tanEpsilon) return std::monostate{};
+    return tan(x);
+}
 
 struct MathAbsFn : NinCallable {
     int arity() override { return 1; }
@@ -103,10 +68,14 @@ struct MathLerpNoClampFn : NinCallable {
     }
 };
 
+MAKE_CALLABLE("sin", sin, MathSineFn);
+MAKE_CALLABLE("cos", cos, MathCosineFn);
+MAKE_CALLABLE("tan", safeTan, MathTangentFn);
+
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
     (*out)["cos"] = std::make_shared<MathCosineFn>();
-    (*out)["tan"] = std::make_shared<MathTanFn>();
+    (*out)["tan"] = std::make_shared<MathTangentFn>();
     (*out)["abs"] = std::make_shared<MathAbsFn>();
     (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["lerp"] = std::make_shared<MathLerpFn>();
