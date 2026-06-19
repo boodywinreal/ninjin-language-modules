@@ -78,6 +78,9 @@ MAKE_CALLABLE("cbrt", std::cbrt, MathCubeRootFn);
 MAKE_CALLABLE("asin", std::asin, MathArcSineFn);
 MAKE_CALLABLE("acos", std::acos, MathArcCosineFn);
 MAKE_CALLABLE("atan", std::atan, MathArcTangentFn);
+MAKE_CALLABLE("sinh", std::sinh, MathHyperSineFn);
+MAKE_CALLABLE("cosh", std::cosh, MathHyperCosineFn);
+MAKE_CALLABLE("tanh", std::tanh, MathHyperTangentFn);
 
 extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["sin"] = std::make_shared<MathSineFn>();
@@ -86,6 +89,9 @@ extern "C" void carrot_module_init(std::unordered_map<std::string, Value> *out){
     (*out)["asin"] = std::make_shared<MathArcSineFn>();
     (*out)["acos"] = std::make_shared<MathArcCosineFn>();
     (*out)["atan"] = std::make_shared<MathArcTangentFn>();
+    (*out)["sinh"] = std::make_shared<MathHyperSineFn>();
+    (*out)["cosh"] = std::make_shared<MathHyperCosineFn>();
+    (*out)["tanh"] = std::make_shared<MathHyperTangentFn>();
     (*out)["abs"] = std::make_shared<MathAbsFn>();
     (*out)["clamp"] = std::make_shared<MathClampFn>();
     (*out)["cbrt"] = std::make_shared<MathCubeRootFn>();
